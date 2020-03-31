@@ -1,13 +1,17 @@
+import os
 from subprocess import Popen,PIPE,call
 from pyperclip import paste
 from datetime import datetime
+from tkinter import filedialog,Tk
+from pathlib import Path
 
 def Short(keyPressed):
 	log(keyPressed)
 
 	function_dictionary = {
 	'fo':openFolderFromClipboard,
-	'ft':openFinderInTerminal
+	'ft':openFinderInTerminal,
+	'e':openEncoderCurrentDir
 	}
 
 	try:
@@ -20,7 +24,7 @@ def Short(keyPressed):
 def openFolderFromClipboard():
 	#to-do error handling
 	directory = paste()
-	print(directory)
+	# print(directory)
 	call(["open",directory])
 
 def openFinderInTerminal():
@@ -39,4 +43,12 @@ def openFinderInTerminal():
 def log(keyPressed):
 	a = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 	f= open("/Users/shashwataryal/Documents/GIT/Short/log.txt","a")
-	f.write((a + ' ' + keyPressed+ '\n'))
+	f.write(a + ' ' + keyPressed + '\n' )
+
+def openEncoderCurrentDir():
+	call(['/Users/shashwataryal/Documents/Python/Transcoder for TV/encoder run from short.py'])
+
+
+
+
+

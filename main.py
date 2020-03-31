@@ -1,27 +1,24 @@
 from pynput import keyboard
-from time import time
+from time import time,sleep
 import multiprocessing
-from subprocess import call,Popen,PIPE
+from subprocess import Popen,PIPE
 from pyperclip import paste
 import sys
 sys.path.append("/Users/shashwataryal/Documents/GIT/Short/")
+from Shorthelper import *
 
-from Sfthorthelper import *
-
-
-class MyException(Exception): pass
 
 def on_press(key):	
 	try:
 		return (key.char)
 		# print('alphanumeric key {0} pressed'.format(key.char))
 	except AttributeError:
-		return (key)
+		pass
+		# return (key)
 		# print('special key {0} pressed'.format(key))
 
 def on_activate():
-	print('Global hotkey activated!')
-	raise MyException()
+	keyboard.GlobalHotKeys.stop(l)
 
 
 def for_canonical(f):
@@ -35,10 +32,10 @@ def logger(key):
 	runinterval = 0
 	if (loggerRan):
 		runinterval = time() - logTime
-		print(runinterval)
+		# print(runinterval)
 
 	logTime = time()
-	print('key was preesed at {0}'.format(logTime))
+	# print('key was preesed at {0}'.format(logTime))
 		
 	if (not loggerRan or runinterval < timeBetweenKeys):
 		keyPressed = on_press(key)
@@ -47,8 +44,10 @@ def logger(key):
 	loggerRan = True
 
 
+
 def bar():
-	listener.join()
+	pass
+	
 
 if __name__ == '__main__':
 	while True:	
@@ -59,30 +58,22 @@ if __name__ == '__main__':
 		with keyboard.Listener(
 				on_press=for_canonical(hotkey.press),
 				on_release=for_canonical(hotkey.release)) as l:
-			try:
-				l.join()
-			except MyException as e:
-				print("success!")		
+			l.join()
+	
 
 		loggedKeys = ''
 		loggerRan = False;
 		logTime = time()
 
 		timeBetweenKeys = 0.3
-		listener = keyboard.Listener(on_press=logger)
-		listener.start()
-		p = multiprocessing.Process(target=bar)
-		p.start()
+		l =  keyboard.Listener(on_press=logger)
+		l.start()
 
-		while p.is_alive():
-			# print ("running...")
+		while l.running:
 			a =time() - logTime
-			print(a, loggerRan)
 			if((loggerRan) and (a > timeBetweenKeys)):
 				Short(loggedKeys)
-				p.terminate()
-				p.join()
-				listener.stop()
+				l.stop()
 
 
 
