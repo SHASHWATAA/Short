@@ -1,7 +1,7 @@
 from pynput import keyboard
 from time import time,sleep
 import multiprocessing
-from subprocess import Popen,PIPE
+from subprocess import Popen,PIPE,call
 from pyperclip import paste
 import sys
 sys.path.append("/Users/shashwataryal/Documents/GIT/Short/")
@@ -74,10 +74,3 @@ if __name__ == '__main__':
 			if((loggerRan) and (a > timeBetweenKeys)):
 				Short(loggedKeys)
 				l.stop()
-
-
-
-
-
-
-
