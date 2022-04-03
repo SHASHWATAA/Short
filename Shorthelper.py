@@ -82,7 +82,7 @@ def openEncoderCurrentDir():
 
 
 def openSpotifyApp():
-	os.system('open "/Users/shashwataryal/Applications/Chrome Apps.localized/Spotify.app" &')
+	os.system('open "/Applications/Spotify.app" &')
 	print("done")
 
 
